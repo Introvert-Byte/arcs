@@ -1,0 +1,10 @@
+id: liquid-cyan
+name: Liquid Cyan
+author: Arcs
+description: Glass panels with cyan liquid accent
+theme: glass
+radius: 20
+glass_alpha: 0.14
+accent: [56, 189, 248]
+shadows: true
+comfortable: true

@@ -1,0 +1,10 @@
+id: neon-purple
+name: Neon Purple
+author: Arcs
+description: Dark glass with purple glow
+theme: glass
+radius: 16
+glass_alpha: 0.18
+accent: [168, 85, 247]
+shadows: true
+comfortable: true

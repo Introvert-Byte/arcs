@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Arcs — Secure Backup & Migration</title>
+  <meta name="description" content="Arcs is a professional cross-platform backup and migration tool. Encrypted archives, modern GUI, single native binary." />
+  <link rel="icon" type="image/png" href="assets/logo-128.png" />
+  <style>
+    :root {
+      --bg: #0b0f17;
+      --card: #141b27;
+      --card-hover: #1a2333;
+      --border: #243044;
+      --text: #e8eef8;
+      --muted: #8b9bb4;
+      --accent: #5b8def;
+      --accent2: #7c5cfc;
+      --ok: #3ecf8e;
+      --radius: 14px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      min-height: 100vh;
+    }
+    .bg-glow {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(91,141,239,0.18), transparent),
+        radial-gradient(ellipse 60% 40% at 80% 60%, rgba(124,92,252,0.08), transparent);
+    }
+    .wrap { position: relative; z-index: 1; max-width: 960px; margin: 0 auto; padding: 32px 20px 80px; }
+
+    header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 0 40px; flex-wrap: wrap; gap: 16px;
+    }
+    .brand { display: flex; align-items: center; gap: 14px; text-decoration: none; color: inherit; }
+    .brand img { width: 48px; height: 48px; border-radius: 12px; }
+    .brand h1 { font-size: 1.45rem; font-weight: 700; letter-spacing: -0.02em; }
+    .brand span { display: block; font-size: 0.8rem; color: var(--muted); font-weight: 500; }
+    nav a {
+      color: var(--muted); text-decoration: none; margin-left: 20px; font-size: 0.95rem;
+      transition: color 0.15s;
+    }
+    nav a:hover { color: var(--text); }
+
+    .hero {
+      text-align: center; padding: 20px 0 48px;
+    }
+    .hero h2 {
+      font-size: clamp(1.9rem, 4.5vw, 2.75rem);
+      font-weight: 800; letter-spacing: -0.03em; line-height: 1.15;
+      background: linear-gradient(135deg, #fff 30%, #a5b4fc 100%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      margin-bottom: 16px;
+    }
+    .hero p {
+      font-size: 1.15rem; color: var(--muted); max-width: 560px; margin: 0 auto 28px;
+    }
+    .cta-row { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 22px; border-radius: 10px; font-weight: 600; font-size: 0.95rem;
+      text-decoration: none; border: none; cursor: pointer; transition: transform 0.12s, background 0.15s;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff; box-shadow: 0 4px 20px rgba(91,141,239,0.35);
+    }
+    .btn-primary:hover { filter: brightness(1.08); }
+    .btn-ghost {
+      background: var(--card); color: var(--text); border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { background: var(--card-hover); }
+
+    .features {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px; margin: 8px 0 48px;
+    }
+    .feature {
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 18px 16px; transition: border-color 0.15s;
+    }
+    .feature:hover { border-color: #3a4a66; }
+    .feature .icon { font-size: 1.5rem; margin-bottom: 8px; }
+    .feature h3 { font-size: 0.95rem; margin-bottom: 4px; }
+    .feature p { font-size: 0.82rem; color: var(--muted); }
+
+    .section-title {
+      font-size: 1.35rem; font-weight: 700; margin-bottom: 6px; letter-spacing: -0.02em;
+    }
+    .section-sub { color: var(--muted); font-size: 0.95rem; margin-bottom: 20px; }
+
+    .download-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px; margin-bottom: 48px;
+    }
+    .dl-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 22px 18px; display: flex; flex-direction: column; gap: 10px;
+    }
+    .dl-card .os { font-size: 1.05rem; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+    .dl-card .meta { font-size: 0.8rem; color: var(--muted); }
+    .dl-card .btn { width: 100%; justify-content: center; margin-top: auto; }
+
+    .steps {
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 24px 22px; margin-bottom: 48px;
+    }
+    .steps ol { padding-left: 20px; color: var(--muted); }
+    .steps li { margin-bottom: 8px; }
+    .steps code {
+      background: #0d121c; padding: 2px 7px; border-radius: 5px; font-size: 0.85em;
+      color: #a5b4fc; border: 1px solid var(--border);
+    }
+
+    footer {
+      text-align: center; padding-top: 24px; border-top: 1px solid var(--border);
+      color: var(--muted); font-size: 0.85rem;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    .badge {
+      display: inline-block; font-size: 0.7rem; font-weight: 600; padding: 3px 8px;
+      border-radius: 999px; background: rgba(62,207,142,0.15); color: var(--ok);
+      border: 1px solid rgba(62,207,142,0.3); margin-left: 6px; vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-glow"></div>
+  <div class="wrap">
+    <header>
+      <a class="brand" href="./">
+        <img src="assets/logo-128.png" alt="Arcs logo" width="48" height="48" />
+        <div>
+          <h1>Arcs</h1>
+          <span>Backup &amp; Migration</span>
+        </div>
+      </a>
+      <nav>
+        <a href="#download">Download</a>
+        <a href="#how">How to use</a>
+        <a href="https://github.com/introvert-byte/arcs" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://github.com/introvert-byte/arcs/releases" target="_blank" rel="noopener">Releases</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <h2>Secure backups.<br/>Simple migration.</h2>
+      <p>
+        Create encrypted <strong>.arcs</strong> archives of your apps, configs and data.
+        Modern desktop GUI, terminal UI and full CLI — one native binary for Windows, macOS and Linux.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#download">Download latest</a>
+        <a class="btn btn-ghost" href="https://github.com/introvert-byte/arcs" target="_blank" rel="noopener">View source</a>
+      </div>
+    </section>
+
+    <div class="features">
+      <div class="feature">
+        <div class="icon">🔒</div>
+        <h3>AES-256-GCM</h3>
+        <p>Strong encryption with Argon2id key derivation. Your data stays yours.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">🖥️</div>
+        <h3>Native GUI</h3>
+        <p>Polished egui interface with themes, first-run shortcut and clear workflow.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">📦</div>
+        <h3>Selective backup</h3>
+        <p>Discover configs, Flatpak, Snap, APT, Homebrew, AppData and more.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">⚡</div>
+        <h3>Single binary</h3>
+        <p>No Electron, no runtime. Just download and run on any platform.</p>
+      </div>
+    </div>
+
+    <h2 class="section-title" id="download">Download <span class="badge">Free</span></h2>
+    <p class="section-sub">Pre-built binaries from GitHub Releases. No installer required.</p>
+
+    <div class="download-grid">
+      <div class="dl-card">
+        <div class="os">🐧 Linux</div>
+        <div class="meta">x86_64 · .tar.gz</div>
+        <a class="btn btn-primary" id="dl-linux"
+           href="https://github.com/introvert-byte/arcs/releases/latest">
+          Download for Linux
+        </a>
+      </div>
+      <div class="dl-card">
+        <div class="os">🪟 Windows</div>
+        <div class="meta">x86_64 · .zip</div>
+        <a class="btn btn-primary" id="dl-windows"
+           href="https://github.com/introvert-byte/arcs/releases/latest">
+          Download for Windows
+        </a>
+      </div>
+      <div class="dl-card">
+        <div class="os">🍎 macOS</div>
+        <div class="meta">x86_64 · .tar.gz</div>
+        <a class="btn btn-primary" id="dl-macos"
+           href="https://github.com/introvert-byte/arcs/releases/latest">
+          Download for macOS
+        </a>
+      </div>
+    </div>
+
+    <div class="steps" id="how">
+      <h2 class="section-title" style="margin-bottom:12px">How to use</h2>
+      <ol>
+        <li>Download the archive for your OS and extract it.</li>
+        <li>Run the <code>arcs</code> binary (double-click or from terminal).</li>
+        <li>On first launch, create a desktop shortcut when asked.</li>
+        <li>Click <strong>Discover</strong> → select items → <strong>Backup</strong> → set a password.</li>
+        <li>To restore later: open <strong>Restore</strong>, pick the <code>.arcs</code> file, use dry-run first.</li>
+      </ol>
+      <p style="margin-top:14px;color:var(--muted);font-size:0.9rem">
+        CLI: <code>arcs discover</code> · <code>arcs backup -o out.arcs --path ~/.config --encrypt</code> · <code>arcs --tui</code>
+      </p>
+    </div>
+
+    <footer>
+      <p>
+        Arcs is open source (MIT) ·
+        <a href="https://github.com/introvert-byte/arcs">GitHub</a> ·
+        <a href="https://github.com/introvert-byte/arcs/releases">All releases</a>
+      </p>
+      <p style="margin-top:6px">Made with Rust + egui · Hosted free on GitHub Pages &amp; Releases</p>
+    </footer>
+  </div>
+
+  <script>
+    // Optional: detect OS and highlight the matching card
+    (function () {
+      const ua = navigator.userAgent.toLowerCase();
+      let os = "linux";
+      if (ua.includes("win")) os = "windows";
+      else if (ua.includes("mac")) os = "macos";
+      const map = { linux: "dl-linux", windows: "dl-windows", macos: "dl-macos" };
+      const el = document.getElementById(map[os]);
+      if (el) {
+        el.style.boxShadow = "0 0 0 2px #5b8def";
+        el.textContent = "Download for your OS →";
+      }
+    })();
+  </script>
+</body>
+</html>

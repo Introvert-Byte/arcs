@@ -1,0 +1,10 @@
+id: soft-studio
+name: Soft Studio
+author: Arcs
+description: Clean light studio look
+theme: light
+radius: 12
+glass_alpha: 0.1
+accent: [79, 70, 229]
+shadows: false
+comfortable: true

@@ -1,0 +1,20 @@
+name: daily-config
+description: Backup important user configs
+include:
+  - ~/.config
+  - ~/.local/share
+exclude:
+  - "**/.cache"
+  - "**/Cache"
+sources:
+  - config
+output: ~/Backups/arcs/daily-{timestamp}.arcs
+encrypt: true
+# password: set via env or prompt
+dry_run: false
+# cloud:
+#   provider: s3
+#   endpoint: https://s3.example.com
+#   bucket_or_path: my-backups
+#   access_key: ...
+#   secret_key: ...
